@@ -56,4 +56,8 @@ export class NgxOperationsService {
   public getOperationByKey(key: string): NgxOperationModel {
     return this._operationsMap[key];
   }
+
+  public isOperationModelExist(key: string): boolean {
+    return key in this._operationsMap;
+  }
 }
