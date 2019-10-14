@@ -1,5 +1,6 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { Point } from './models/point.model';
+import { NgxSingleVariableFunctionParserService } from './services/ngx-single-variable-function-parser.service';
 
 @Component({
   selector: 'ngx-math-function-plotter',
@@ -9,22 +10,47 @@ import { Point } from './models/point.model';
   `,
   styles: []
 })
-export class NgxMathFunctionPlotterComponent implements AfterViewInit {
-  @Input() mathFunctionAsText: string;
+export class NgxMathFunctionPlotterComponent implements AfterViewInit, OnChanges {
+  private _mathFunctionAsText: string;
   @ViewChild('mathPlotterCanvas') _canvas: ElementRef;
-  _drawingContext: any;
-  _canvasWidth: number;
-  _canvasHeight: number;
-  _xScale: number;
-  _yScale: number;
-  _originPointLocation: Point;
-  DRAW_FUNCTION_SCALE = 100;
-  MAX_DISPLAY_VALYE = 10;
+  private _singleVariableParse: NgxSingleVariableFunctionParserService;
+  private _drawingContext: any;
+  private _canvasWidth = 300;
+  private _canvasHeight = 300;
+  private _xScale: number;
+  private _yScale: number;
+  private _originPointLocation: Point;
+  private DRAW_FUNCTION_SCALE = 100;
+  private MAX_DISPLAY_VALYE = 10;
+
+  constructor(singleVariableParse: NgxSingleVariableFunctionParserService) {
+    this._singleVariableParse = singleVariableParse;
+   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    const functionInputAsText: SimpleChange = changes.functionInput;
+    this._mathFunctionAsText = functionInputAsText.currentValue;
+  }
+
+  @Input()
+  public set functionInput(functionInputAsText: string) {
+    this._mathFunctionAsText = functionInputAsText;
+  }
+
+  @Input()
+  public set width(width: number) {
+    this._canvasWidth = width;
+  }
+
+  @Input()
+  public set height(height: number) {
+    this._canvasHeight = height;
+  }
 
   ngAfterViewInit(): void {
     this._drawingContext = this._canvas.nativeElement.getContext('2d');
-    this._canvasWidth = this._canvas.nativeElement.width;
-    this._canvasHeight = this._canvas.nativeElement.height;
+    this._canvas.nativeElement.width = this._canvasWidth;
+    this._canvas.nativeElement.height = this._canvasHeight;
     const xHalf = this._canvasWidth / 2;
     const yHallf = this._canvasHeight / 2;
     this._originPointLocation = new Point(xHalf, yHallf);
@@ -34,6 +60,7 @@ export class NgxMathFunctionPlotterComponent implements AfterViewInit {
     this.drawSquares();
     this.drawXYAxis();
     this.drawNumbersOnAxises();
+    this.drawFunction();
   }
 
   private drawSquares() {
@@ -92,6 +119,31 @@ export class NgxMathFunctionPlotterComponent implements AfterViewInit {
     this._drawingContext.font = font;
     this._drawingContext.strokeStyle = color;
     this._drawingContext.fillText(text, pointLocation.X, pointLocation.Y)
+  }
+
+  private drawFunction() {
+    this.clearLastFunction();
+    this._singleVariableParse.setMathFunctionText(this._mathFunctionAsText);
+    const maxMinusXValue = this.MAX_DISPLAY_VALYE * -1;
+    const yValueAtMaxMinusX = this._singleVariableParse.computeFunctionAtValue(maxMinusXValue);
+    let previousPoint = new Point(maxMinusXValue, yValueAtMaxMinusX);
+     // Make DRAW_FUNCTION_SCALE smaller to make plotting more accurate
+    const drawFunctionScale = this.MAX_DISPLAY_VALYE / (this.DRAW_FUNCTION_SCALE * this.MAX_DISPLAY_VALYE);
+    for (let x = maxMinusXValue; x < this.MAX_DISPLAY_VALYE; x += drawFunctionScale) {
+      const currentFunctionValue = this._singleVariableParse.computeFunctionAtValue(x);
+      const xStep = x * this._xScale;
+      const yStep = currentFunctionValue * this._yScale;
+      const nextPoint = new Point(this._originPointLocation.X + xStep, this._originPointLocation.Y - yStep);
+      this.drawLine(previousPoint, nextPoint, '#008000');
+      previousPoint = nextPoint;
+    }
+  }
+
+  private clearLastFunction() {
+    this.clearCanvas(this._canvasWidth, this._canvasHeight);
+    this.drawSquares();
+    this.drawXYAxis();
+    this.drawNumbersOnAxises();
   }
 
   private clearCanvas(canvasWidth, canvsHeight) {
