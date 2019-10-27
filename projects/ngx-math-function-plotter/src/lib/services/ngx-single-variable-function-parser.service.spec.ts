@@ -39,4 +39,10 @@ describe('NgxSingleVariableFunctionParserService', () => {
     service.setMathFunctionText('tan(x)+cos(x)');
     expect(service.computeFunctionAtValue(0)).toBe(1);
   });
+
+  it('should resolve floating point expression sin(3.1428571428571429) < 1', () => {
+    const service: NgxSingleVariableFunctionParserService = TestBed.get(NgxSingleVariableFunctionParserService);
+    service.setMathFunctionText('sin(3.1428571428571429)');
+    expect(service.computeFunctionAtValue(0)).toBeLessThan(1);
+  });
 });

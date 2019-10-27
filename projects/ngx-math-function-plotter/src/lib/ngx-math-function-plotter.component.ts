@@ -21,15 +21,29 @@ export class NgxMathFunctionPlotterComponent implements AfterViewInit, OnChanges
   private _yScale: number;
   private _originPointLocation: Point;
   private DRAW_FUNCTION_SCALE = 100;
-  private MAX_DISPLAY_VALYE = 10;
+  private _maxDisplayValue = 10;
 
   constructor(singleVariableParse: NgxSingleVariableFunctionParserService) {
     this._singleVariableParse = singleVariableParse;
    }
 
   ngOnChanges(changes: SimpleChanges) {
-    const functionInputAsText: SimpleChange = changes.functionInput;
-    this._mathFunctionAsText = functionInputAsText.currentValue;
+    if (changes['functionInput'] !== undefined) {
+      const functionInputAsText: SimpleChange = changes.functionInput;
+      this._mathFunctionAsText = functionInputAsText.currentValue;
+    }
+
+    if (changes['maxDisplayValue'] !== undefined) {
+      const maxDisplayValue: SimpleChange = changes.maxDisplayValue;
+      this._maxDisplayValue = maxDisplayValue.currentValue;
+    }
+    try {
+    this.clearLastFunction();
+    this.drawSquares();
+    this.drawXYAxis();
+    this.drawNumbersOnAxises();
+    this.drawFunction();
+    } catch {}
   }
 
   @Input()
@@ -39,12 +53,17 @@ export class NgxMathFunctionPlotterComponent implements AfterViewInit, OnChanges
 
   @Input()
   public set width(width: number) {
-    this._canvasWidth = width;
+    this._maxDisplayValue = width;
   }
 
   @Input()
   public set height(height: number) {
     this._canvasHeight = height;
+  }
+
+  @Input()
+  public set maxDisplayValue(max: number) {
+      this._maxDisplayValue = max;
   }
 
   ngAfterViewInit(): void {
@@ -54,8 +73,8 @@ export class NgxMathFunctionPlotterComponent implements AfterViewInit, OnChanges
     const xHalf = this._canvasWidth / 2;
     const yHallf = this._canvasHeight / 2;
     this._originPointLocation = new Point(xHalf, yHallf);
-    this._xScale = this._canvasWidth / (this.MAX_DISPLAY_VALYE * 2); // actual width of 1unit in x axis of canvas
-    this._yScale = this._canvasHeight / (this.MAX_DISPLAY_VALYE * 2); // actual height of 1unit in y axis of canvas
+    this._xScale = this._canvasWidth / (this._maxDisplayValue * 2); // actual width of 1unit in x axis of canvas
+    this._yScale = this._canvasHeight / (this._maxDisplayValue * 2); // actual height of 1unit in y axis of canvas
 
     this.drawSquares();
     this.drawXYAxis();
@@ -64,7 +83,7 @@ export class NgxMathFunctionPlotterComponent implements AfterViewInit, OnChanges
   }
 
   private drawSquares() {
-    for (let i = 0; i <= this.MAX_DISPLAY_VALYE * 2; ++i) {
+    for (let i = 0; i <= this._maxDisplayValue * 2; ++i) {
       const xStepValue = i * this._xScale;
       const yStepValue = i * this._yScale;
       this.drawLine(new Point(xStepValue, 0), new Point(xStepValue, this._canvasHeight), '#C4BEBD'); // Draw vertical line
@@ -83,11 +102,11 @@ export class NgxMathFunctionPlotterComponent implements AfterViewInit, OnChanges
   }
 
   private drawNumbersOnAxises() {
-    const maxMinusXValue = this.MAX_DISPLAY_VALYE * -1;
+    const maxMinusXValue = this._maxDisplayValue * -1;
     const numberXDashHeight = this._yScale / 10;
     const numberYDashHeight = this._xScale / 10;
     let numberToDraw = maxMinusXValue;
-    for (let i = 0; i < this.MAX_DISPLAY_VALYE * 2; ++i) {
+    for (let i = 0; i < this._maxDisplayValue * 2; ++i) {
       const xInitPoint = new Point(i * this._xScale, this._originPointLocation.Y);
       const xDestPoint = new Point(xInitPoint.X, this._originPointLocation.Y + numberXDashHeight);
 
@@ -124,12 +143,12 @@ export class NgxMathFunctionPlotterComponent implements AfterViewInit, OnChanges
   private drawFunction() {
     this.clearLastFunction();
     this._singleVariableParse.setMathFunctionText(this._mathFunctionAsText);
-    const maxMinusXValue = this.MAX_DISPLAY_VALYE * -1;
+    const maxMinusXValue = this._maxDisplayValue * -1;
     const yValueAtMaxMinusX = this._singleVariableParse.computeFunctionAtValue(maxMinusXValue);
     let previousPoint = new Point(maxMinusXValue, yValueAtMaxMinusX);
      // Make DRAW_FUNCTION_SCALE smaller to make plotting more accurate
-    const drawFunctionScale = this.MAX_DISPLAY_VALYE / (this.DRAW_FUNCTION_SCALE * this.MAX_DISPLAY_VALYE);
-    for (let x = maxMinusXValue; x < this.MAX_DISPLAY_VALYE; x += drawFunctionScale) {
+    const drawFunctionScale = this._maxDisplayValue / (this.DRAW_FUNCTION_SCALE * this._maxDisplayValue);
+    for (let x = maxMinusXValue; x < this._maxDisplayValue; x += drawFunctionScale) {
       const currentFunctionValue = this._singleVariableParse.computeFunctionAtValue(x);
       const xStep = x * this._xScale;
       const yStep = currentFunctionValue * this._yScale;

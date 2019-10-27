@@ -1,4 +1,9 @@
-<ngx-math-function-plotter [width]="640" [height]="640" [functionInput]="'sin(x)'">
+<div><input #functionToDraw [(ngModel)]="mathFunctionToDraw" > <input type="number" #maxDisplayValue [(ngModel)]="maxCoordinateValue" ></div>
+<div>
+    <ngx-math-function-plotter [functionInput]="mathFunctionToDraw" [maxDisplayValue]="maxCoordinateValue" [width]="600" [height]="600">
+    </ngx-math-function-plotter>
+</div>
 
-</ngx-math-function-plotter>
-
+<div>
+    <input #expressionValue > <button (click)="computeExpression(expressionValue.value)">Compute</button> 
+</div>

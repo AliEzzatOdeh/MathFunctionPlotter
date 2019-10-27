@@ -21,11 +21,17 @@ export class NgxSingleVariableFunctionParserService {
     this._reversePolishService.setVariableName(_variableName);
   }
   public setMathFunctionText(mathFunctionText: string): void {
+    if (mathFunctionText === undefined) {
+      return;
+    }
     this._functionAsText = mathFunctionText.replace(/\s/g, '');
     this.convertToRevesePolishFormat();
   }
 
   public computeFunctionAtValue(x): number {
+    if (this._functionAsText === undefined) {
+      return;
+    }
     return this._reversePolishService.computeAtValue(x);
   }
 
@@ -41,7 +47,8 @@ export class NgxSingleVariableFunctionParserService {
         nextTokenToParse = this._functionAsText.substring(i, i + 3);
         i = i + 2;
       }
-      if (!isNaN(Number(nextTokenToParse))) {
+      // only permit for one dot in number
+      if (!isNaN(Number(nextTokenToParse)) || (nextTokenToParse === '.' && operandValue.indexOf('.') === -1)) {
         if (operandValue === '') {
           operandValue = nextTokenToParse;
           if (i === this._functionAsText.length - 1) {
