@@ -4,23 +4,23 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 An angular library that has a component for plotting math functions with built in math expressions & single variable computation.
 
 Table of supported math operations:
-| Operation     | Syntax        | # of operands   |
-| ------------- |:-------------:| ---------------:|
-| Addition      |     +         |       2         |
-| Subtraction   |     sub       |       2         |
-| Multiplication|     *         |       2         |
-| Division      |     /         |       2         |
-| L.Parantheses |     (         |       >=1       |
-| R.Parantheses |     )         |       >=1       |
-| sin           |     sin       |       1         |
-| cos           |     cos       |       1         |
-| tan           |     tan       |       1         |
-| seq           |     seq       |       1         |
-| csc           |     csc       |       1         |
-| cot           |     cot       |       1         |
-| power         |     ^         |       2         |
-| square root   |     sqr       |       1         |
-| minus         |     -         |       1         |
+| Operation      | Syntax        | # of operands   |
+| -------------  |:-------------:| ---------------:|
+| Addition       |     +         |       2         |
+| Subtraction    |     sub       |       2         |
+| Multiplication |     *         |       2         |
+| Division       |     /         |       2         |
+| L.Parantheses  |     (         |       >=1       |
+| R.Parantheses  |     )         |       >=1       |
+| sin            |     sin       |       1         |
+| cos            |     cos       |       1         |
+| tan            |     tan       |       1         |
+| seq            |     seq       |       1         |
+| csc            |     csc       |       1         |
+| cot            |     cot       |       1         |
+| power          |     ^         |       2         |
+| square root    |     sqr       |       1         |
+| minus          |     -         |       1         |
 
 ## Build
 

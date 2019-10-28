@@ -2,9 +2,9 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.2.
 
-This is the hosting main angular project for the NgxMathFunctionPlotter library, it has also samples of how to use the plotter and expression calculator.
+This is the hosting main angular project for the [NgxMathFunctionPlotter](https://github.com/AliEzzatOdeh/MathFunctionPlotter/tree/master/projects/ngx-math-function-plotter) library, it has also samples of how to use the plotter and expression calculator.
 
-![alt text](/Sample.png)
+![image not found](/Sample.PNG)
 
 ## Development server
 
@@ -17,10 +17,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 ## Further help
 
