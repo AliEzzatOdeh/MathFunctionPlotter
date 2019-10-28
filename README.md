@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.com/AliEzzatOdeh/MathFunctionPlotter.svg?branch=master)](https://travis-ci.com/AliEzzatOdeh/MathFunctionPlotter)
-
-# MathFunctionPlotter
+# MathFunctionPlotter [![Build Status](https://travis-ci.com/AliEzzatOdeh/MathFunctionPlotter.svg?branch=master)](https://travis-ci.com/AliEzzatOdeh/MathFunctionPlotter)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.2.
 
