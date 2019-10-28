@@ -45,8 +45,8 @@ export class NgxReversePolishNotationService {
           let startIndex = -1;
           let endIndex = -1;
 
-          if (operation === '(') {
-            throw new Error('Found open rounded bracket without closing one');
+          if (operation === '(' || operation === ')') {
+            throw new Error('Found open parentheses without closing one or vice versa');
           }
 
           const operationModel = this._operationsService.getOperationByKey(operation);

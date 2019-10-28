@@ -100,6 +100,9 @@ export class NgxSingleVariableFunctionParserService {
             outputQueue[outputQueueTracker] = lastOperator;
             outputQueueTracker++;
             lastOperator = operatorsStack.pop();
+            if (lastOperator === undefined) {
+              throw new Error('Found open right parentheses without closing one');
+            }
           }
         } else {
           throw new Error('Invalid symbol fouund');
