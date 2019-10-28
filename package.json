@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test --browsers ChromeHeadless --project NgxMathFunctionPlotter",
+    "test": "ng test --watch=false --browsers ChromeHeadless --project NgxMathFunctionPlotter",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

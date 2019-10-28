@@ -22,6 +22,6 @@
     "@angular/core": "^7.0.0"
   },
   "scripts": {
-    "test": "ng test --browsers ChromeHeadless --project NgxMathFunctionPlotter"
+    "test": "ng test --watch=false --browsers ChromeHeadless --project NgxMathFunctionPlotter"
   }
 }
