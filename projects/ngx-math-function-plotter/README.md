@@ -1,9 +1,11 @@
 # MathFunctionPlotter
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.2.
+
 An angular library that has a component for plotting math functions with built in math expressions & single variable computation.
 
 Table of supported math operations:
+
 | Operation      | Syntax        | # of operands   |
 | -------------  |:-------------:| ---------------:|
 | Addition       |     +         |       2         |
