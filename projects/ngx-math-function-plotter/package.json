@@ -1,6 +1,22 @@
 {
   "name": "ngx-math-function-plotter",
   "version": "0.0.1",
+  "description": "An angular library that has a component for plotting math functions with built in math expressions and single variable computation.",
+  "author": "ALIEZZAT ODEH",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AliEzzatOdeh/MathFunctionPlotter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AliEzzatOdeh/MathFunctionPlotter/issues"
+  },
+  "homepage": "https://github.com/AliEzzatOdeh/MathFunctionPlotter/tree/master/projects/ngx-math-function-plotter",
+  "keywords": [
+    "angular",
+    "typescript",
+    "javascript"
+  ],
+  "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^7.0.0",
     "@angular/core": "^7.0.0"

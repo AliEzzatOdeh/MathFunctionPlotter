@@ -101,7 +101,7 @@ export class NgxSingleVariableFunctionParserService {
             outputQueueTracker++;
             lastOperator = operatorsStack.pop();
             if (lastOperator === undefined) {
-              throw new Error('Found open right parentheses without closing one');
+              throw new Error('Found open right parentheses without left one');
             }
           }
         } else {
