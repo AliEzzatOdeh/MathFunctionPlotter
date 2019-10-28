@@ -22,6 +22,7 @@ export class NgxMathFunctionPlotterComponent implements AfterViewInit, OnChanges
   private _originPointLocation: Point;
   private DRAW_FUNCTION_SCALE = 100;
   private _maxDisplayValue = 10;
+  private _isNgInitCalled = false;
 
   constructor(singleVariableParse: NgxSingleVariableFunctionParserService) {
     this._singleVariableParse = singleVariableParse;
@@ -37,13 +38,26 @@ export class NgxMathFunctionPlotterComponent implements AfterViewInit, OnChanges
       const maxDisplayValue: SimpleChange = changes.maxDisplayValue;
       this._maxDisplayValue = maxDisplayValue.currentValue;
     }
-    try {
-    this.clearLastFunction();
-    this.drawSquares();
-    this.drawXYAxis();
-    this.drawNumbersOnAxises();
-    this.drawFunction();
-    } catch {}
+
+    if (changes['width'] !== undefined) {
+      const width: SimpleChange = changes.width;
+      this._canvasWidth = width.currentValue;
+    }
+
+    if (changes['height'] !== undefined) {
+      const height: SimpleChange = changes.height;
+      this._canvasHeight = height.currentValue;
+    }
+
+    if (this._isNgInitCalled) {
+      this._canvas.nativeElement.width = this._canvasWidth;
+      this._canvas.nativeElement.height = this._canvasHeight;
+      this.clearLastFunction();
+      this.drawSquares();
+      this.drawXYAxis();
+      this.drawNumbersOnAxises();
+      this.drawFunction();
+    }
   }
 
   @Input()
@@ -67,6 +81,7 @@ export class NgxMathFunctionPlotterComponent implements AfterViewInit, OnChanges
   }
 
   ngAfterViewInit(): void {
+    this._isNgInitCalled = true;
     this._drawingContext = this._canvas.nativeElement.getContext('2d');
     this._canvas.nativeElement.width = this._canvasWidth;
     this._canvas.nativeElement.height = this._canvasHeight;

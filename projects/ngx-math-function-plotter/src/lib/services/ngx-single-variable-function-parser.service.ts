@@ -110,7 +110,6 @@ export class NgxSingleVariableFunctionParserService {
       const lastOperator = operatorsStack.pop();
       outputQueue[outputQueueTracker] = lastOperator;
       outputQueueTracker++;
-      console.log(operatorsStack.length);
     }
 
     this._reversePolishService.setOutputTokensQueue(outputQueue);

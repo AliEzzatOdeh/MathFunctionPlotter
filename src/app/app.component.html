@@ -1,9 +1,10 @@
-<div><input #functionToDraw [(ngModel)]="mathFunctionToDraw" > <input type="number" #maxDisplayValue [(ngModel)]="maxCoordinateValue" ></div>
+<div><label>F(x)=</label><input #functionToDraw [(ngModel)]="mathFunctionToDraw" > <label>Max display value:</label><input type="number" #maxDisplayValue [(ngModel)]="maxCoordinateValue" ></div>
 <div>
     <ngx-math-function-plotter [functionInput]="mathFunctionToDraw" [maxDisplayValue]="maxCoordinateValue" [width]="600" [height]="600">
     </ngx-math-function-plotter>
 </div>
-
+<hr>
 <div>
+    <label>Calculator</label>
     <input #expressionValue > <button (click)="computeExpression(expressionValue.value)">Compute</button> 
 </div>

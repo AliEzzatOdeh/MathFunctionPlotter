@@ -26,6 +26,7 @@ export class NgxReversePolishNotationService {
     let operation = '';
     let outputQueueCopy = [...this._outputTokensQueue];
     let i = 0;
+
     if (outputQueueCopy.length === 1 && !this._operationsService.isOperationModelExist(outputQueueCopy[0])) {
       const operand = outputQueueCopy[0];
       if (operand === this._variableName) {
@@ -43,6 +44,11 @@ export class NgxReversePolishNotationService {
           let operand2 = null;
           let startIndex = -1;
           let endIndex = -1;
+
+          if (operation === '(') {
+            throw new Error('Found open rounded bracket without closing one');
+          }
+
           const operationModel = this._operationsService.getOperationByKey(operation);
           const operandsCount = operationModel.operandsCount;
           const operationHandler = operationModel.handler;
