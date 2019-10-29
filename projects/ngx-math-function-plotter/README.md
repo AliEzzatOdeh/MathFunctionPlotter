@@ -24,6 +24,56 @@ Table of supported math operations:
 | square root    |     sqr       |       1         |
 | minus          |     -         |       1         |
 
+## Usage
+
+### Plotter
+
+Inside your module import it as:
+
+```
+import {NgxMathFunctionPlotterModule} from 'ngx-math-function-plotter';
+```
+Then inside your component `.html` add the plotter component tag:
+
+```
+<ngx-math-function-plotter [functionInput]="'sin(x)'" [maxDisplayValue]="10" [width]="600" [height]="600">
+</ngx-math-function-plotter>
+```
+
+Result will be as follow:
+
+![image not found](/projects/ngx-math-function-plotter/plotterSampleResult.PNG)
+
+### Math Expression parser
+
+For parsing mathmatical expressions service `NgxSingleVariableFunctionParserService` can be used inside needed component `.ts`:
+
+First import the service as follows:
+
+```
+import { NgxSingleVariableFunctionParserService } from 'ngx-math-function-plotter';
+```
+Then inside the class will be as:
+
+```
+export class AppComponent {
+  title = 'PlotterTest';
+
+  mathExpressionParser: NgxSingleVariableFunctionParserService;
+
+  constructor(mathExpressionParser: NgxSingleVariableFunctionParserService) {
+    this.mathExpressionParser = mathExpressionParser;
+    this.mathExpressionParser.setMathFunctionText('x+1'); // single variable expression
+    const number = this.mathExpressionParser.computeFunctionAtValue(1); // 2 is displayed
+    alert(number);
+    this.mathExpressionParser.setMathFunctionText('sqr(4*4)'); // constant expression
+     // input in following statement has no effect since expression is constant
+    const constantExpressionResult = this.mathExpressionParser.computeFunctionAtValue(0);
+    alert(constantExpressionResult); // 4 is displayed
+  }
+```
+
+
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
